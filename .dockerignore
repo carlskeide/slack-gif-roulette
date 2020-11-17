@@ -1,0 +1,10 @@
+.git
+.github
+
+*.egg-info/
+*.egg
+
+__pycache__/
+*.py[cod]
+
+.pytest_cache/
