@@ -12,9 +12,9 @@ CACHE_REDIS_URL = sec.load("redis_url", fallback="redis://localhost")
 CACHE_DEFAULT_TIMEOUT = 600
 
 # Flack
-FLACK_URL_PREFIX = "/"
 FLACK_DEFAULT_NAME = "GifRoulette"
 FLACK_TOKEN = sec.load("slack_token")
+FLACK_URL_PREFIX = sec.load("flack_prefix", fallback="/")
 
 # App
 GIPHY_API_KEY = sec.load("giphy_key")
