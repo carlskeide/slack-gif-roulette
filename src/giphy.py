@@ -14,21 +14,15 @@ logger = logging.getLogger(__name__)
 
 def _get_image_url(images):
     try:
-        image_url = images["hd"].get("mp4") or images["hd"]["webp"]
-        logger.debug("Selected HD image: %s", image_url)
+        image_url = images["downsized_large"]["url"]
+        logger.debug("Selected downsized image")
+
         return image_url
 
     except KeyError:
-        logger.warning("Unable to get HD version")
+        logger.warning("Unable to get downsized version")
 
-    image_url = (
-        images["original"].get("mp4")
-        or images["original"].get("webp")
-        or images["original"]["url"]
-    )
-
-    logger.debug("Selected original image: %s", image_url)
-    return image_url
+        return images["original"]["url"]
 
 
 def gif_search(search_string):

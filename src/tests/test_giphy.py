@@ -20,13 +20,22 @@ SEARCH_DATA = [
         },
         "images": {
             "original": {
-                "url": "https://media2.giphy.com/media/abc123/giphy.gif",
-                "mp4": "https://media2.giphy.com/media/abc123/giphy.mp4",
-                "webp": "https://media2.giphy.com/media/abc123/giphy.webp"
+                "height": "187",
+                "width": "245",
+                "size": "730871",
+                "url": "https://media4.giphy.com/media/qmfpjpAT2fJRK/giphy.gif",
+                "mp4_size": "1068619",
+                "mp4": "https://media4.giphy.com/media/qmfpjpAT2fJRK/giphy.mp4",
+                "webp_size": "438512",
+                "webp": "https://media4.giphy.com/media/qmfpjpAT2fJRK/giphy.webp",
+                "frames": "34",
+                "hash": "47e1fcca22164e408fc980c4d5691069"
             },
-            "hd": {
-                "mp4": "https://media2.giphy.com/media/abc123/giphy-hd.mp4",
-                "webp": "https://media2.giphy.com/media/abc123/giphy-hd.webp"
+            "downsized_large": {
+                "height": "187",
+                "width": "245",
+                "size": "730871",
+                "url": "https://media4.giphy.com/media/qmfpjpAT2fJRK/giphy.gif"
             }
         }
     }
@@ -52,7 +61,7 @@ def test_gif_search(requests_mock):
         json={"data": SEARCH_DATA}
     )
     result = giphy.gif_search("test")
-    assert result.indirect.image_url == "https://media2.giphy.com/media/abc123/giphy-hd.mp4"
+    assert result.indirect.image_url == "https://media4.giphy.com/media/qmfpjpAT2fJRK/giphy.gif"
     assert result.indirect.title == "Happy Dancing GIF"
     assert "pg-13" in result.indirect.text
     assert "CoolDude" in result.indirect.text
@@ -62,16 +71,10 @@ def test_gif_search(requests_mock):
 def test__get_image_url():
     images = deepcopy(SEARCH_DATA[0]["images"])
 
-    # HD > Original, MP4 > WEBP > GIF
-    assert giphy._get_image_url(images) == "https://media2.giphy.com/media/abc123/giphy-hd.mp4"
-    images["hd"].pop("mp4")
-    assert giphy._get_image_url(images) == "https://media2.giphy.com/media/abc123/giphy-hd.webp"
-    images["hd"].pop("webp")
-    assert giphy._get_image_url(images) == "https://media2.giphy.com/media/abc123/giphy.mp4"
-    images["original"].pop("mp4")
-    assert giphy._get_image_url(images) == "https://media2.giphy.com/media/abc123/giphy.webp"
-    images["original"].pop("webp")
-    assert giphy._get_image_url(images) == "https://media2.giphy.com/media/abc123/giphy.gif"
+    assert giphy._get_image_url(images) == "https://media4.giphy.com/media/qmfpjpAT2fJRK/giphy.gif"
+
+    images.pop("downsized_large")
+    assert giphy._get_image_url(images) == "https://media4.giphy.com/media/qmfpjpAT2fJRK/giphy.gif"
 
     images["original"].pop("url")
     with pytest.raises(KeyError):
